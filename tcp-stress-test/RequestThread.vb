@@ -38,7 +38,12 @@ Public Class RequestThread
 		Me.MainFormRef.DownloadingPhase(UpdateItem)
 		tcp.ReceiveBufferSize = MAXRECEIVE
 		Dim ReceivedBytes(MAXRECEIVE) As Byte
-		Dim ResponseLength As Integer = netstream.Read(ReceivedBytes, 0, MAXRECEIVE)
+		Dim ResponseLength As Integer = 0
+		Do
+			Dim read As Integer = netstream.Read(ReceivedBytes, ResponseLength, MAXRECEIVE - ResponseLength)
+			ResponseLength += read
+			Thread.Sleep(1000) ' wait up to 1 second for the next chunk
+		Loop While netstream.DataAvailable AndAlso ResponseLength < MAXRECEIVE
 		' Build String for response
 		Dim out As String
 		out = System.Text.Encoding.UTF8.GetString(ReceivedBytes, 0, ResponseLength)
