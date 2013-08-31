@@ -50,7 +50,7 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>_logo.ico</ApplicationIcon>
+    <ApplicationIcon>_logo_256.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -119,7 +119,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="_logo.ico" />
+    <Content Include="_logo_256.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
