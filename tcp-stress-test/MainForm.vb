@@ -129,7 +129,7 @@
 			prefix += 1
 			speed /= 1024
 		End While
-		lblUpstream.Text = String.Format("Upstream bandwidth: {0} {1}byte/s", Math.Round(speed, 3).ToString, prefixes(prefix))
+		lblUpstream.Text = String.Format("Upstream bandwidth: {0:0.000} {1}byte/s", speed, prefixes(prefix))
 	End Sub
 
 	' Buttons
