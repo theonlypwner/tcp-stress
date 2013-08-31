@@ -35,10 +35,11 @@ Public Class RequestThread
 		' Download
 		Me.MainFormRef.DownloadingPhase(UpdateItem)
 		tcp.ReceiveBufferSize = 1048576
-		Dim recv(tcp.ReceiveBufferSize) As Byte
-		netstream.Read(recv, 0, CInt(tcp.ReceiveBufferSize))
+		Dim ReceivedBytes(tcp.ReceiveBufferSize) As Byte
+		Dim ResponseLength As Integer = netstream.Read(ReceivedBytes, 0, CInt(tcp.ReceiveBufferSize))
+		' Build String for response
 		Dim out As String
-		out = System.Text.Encoding.UTF8.GetString(recv)
+		out = System.Text.Encoding.UTF8.GetString(ReceivedBytes, 0, ResponseLength)
 		Me.MainFormRef.ResponseReceived(UpdateItem, out)
 		Me.MainFormRef.IncreaseCompleted()
 	End Sub
