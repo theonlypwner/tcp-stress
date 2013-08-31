@@ -1,11 +1,13 @@
 DISCLAIMER
 ====================
-This project is designed for the purpose of network testing. I cannot and will not be held accountable for any misuse of this software or damages as a result of that misuse. This is already stated in the GPL licence.
+This project is designed for the purpose of network testing. I cannot and will not be held accountable for any misuse of this software or damages as a result of that misuse.
+This is already stated in the GPL licence, like in most licences.
 
-Licence
+Licences
 ====================
 Upload/download icons are from Kyo-Tux (Asher)'s MinIcons set, licenced under CC-BY-NC-SA 3.0.
 Other icons are from Everaldo Coelho's Crystal Icons, licenced under the LGPL licence.
+The code is subject to the GPL:
 
 TCP Stress Tester
 Copyright (C) 2013 victorz
