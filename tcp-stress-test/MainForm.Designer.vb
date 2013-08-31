@@ -153,6 +153,7 @@ Partial Class MainForm
 		'
 		'lvResponses
 		'
+		Me.lvResponses.AllowColumnReorder = True
 		Me.lvResponses.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.chNumber, Me.chResult, Me.chBody, Me.chHead, Me.chTotal})
 		Me.lvResponses.Dock = System.Windows.Forms.DockStyle.Fill
 		Me.lvResponses.FullRowSelect = True
