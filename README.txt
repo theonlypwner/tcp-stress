@@ -4,7 +4,7 @@ This project is designed for the purpose of network testing. I cannot and will n
 
 Licence
 ====================
-Upload/download icsons are from Kyo-Tux (Asher)'s MinIcons set, licenced under CC-BY-NC-SA 3.0.
+Upload/download icons are from Kyo-Tux (Asher)'s MinIcons set, licenced under CC-BY-NC-SA 3.0.
 Other icons are from Everaldo Coelho's Crystal Icons, licenced under the LGPL licence.
 
 TCP Stress Tester
