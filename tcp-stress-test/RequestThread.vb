@@ -3,6 +3,8 @@ Imports System.Net.Sockets
 Imports System.Threading
 
 Public Class RequestThread
+	Const MAXRECEIVE As Integer = 2 * 1024 * 1024 ' 2 megabytes
+
 	Dim TargetEndpoint As IPEndPoint
 	Dim Payload As Byte()
 	Dim MainFormRef As MainForm
@@ -34,9 +36,9 @@ Public Class RequestThread
 		netstream.Write(Payload, 0, Payload.Length)
 		' Download
 		Me.MainFormRef.DownloadingPhase(UpdateItem)
-		tcp.ReceiveBufferSize = 1048576
-		Dim ReceivedBytes(tcp.ReceiveBufferSize) As Byte
-		Dim ResponseLength As Integer = netstream.Read(ReceivedBytes, 0, CInt(tcp.ReceiveBufferSize))
+		tcp.ReceiveBufferSize = MAXRECEIVE
+		Dim ReceivedBytes(MAXRECEIVE) As Byte
+		Dim ResponseLength As Integer = netstream.Read(ReceivedBytes, 0, MAXRECEIVE)
 		' Build String for response
 		Dim out As String
 		out = System.Text.Encoding.UTF8.GetString(ReceivedBytes, 0, ResponseLength)
