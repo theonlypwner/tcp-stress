@@ -1,4 +1,6 @@
-﻿Public Class MainForm
+﻿Imports System.Text.RegularExpressions
+
+Public Class MainForm
 
 	' Completion counter
 	Dim completed As Long = 0
@@ -60,8 +62,9 @@
 			Me.lvResponses.BeginInvoke(New ResponseReceivedDelegate(AddressOf ResponseReceived), lvi, out)
 		Else
 			Dim headerOffset As Integer = out.IndexOf(ControlChars.CrLf + ControlChars.CrLf)
-			If out.Substring(0, 4) = "HTTP" AndAlso headerOffset >= 0 Then
-				Dim code As Integer = 200
+			Dim m As Match = Regex.Match(out, "^HTTP/[0-9]\.[0-9] ([0-9]{3}) ")
+			If headerOffset >= 0 AndAlso m.Success Then
+				Dim code As Integer = CInt(m.Groups(1).Value)
 				Select Case code
 					Case 200
 						lvi.ImageIndex = StatusImages.CODE200
