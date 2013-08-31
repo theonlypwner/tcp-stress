@@ -120,7 +120,7 @@ Partial Class MainForm
 		Me.txtPayload.ScrollBars = System.Windows.Forms.ScrollBars.Both
 		Me.txtPayload.Size = New System.Drawing.Size(544, 246)
 		Me.txtPayload.TabIndex = 0
-		Me.txtPayload.Text = "GET / HTTP 1.1" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Host: " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
+		Me.txtPayload.Text = "GET / HTTP/1.1" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Host: " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
 		'
 		'tpResponse
 		'
