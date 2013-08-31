@@ -27,7 +27,7 @@ Public Class RequestThread
 		Try
 			tcp.Connect(TargetEndpoint)
 		Catch ex As Exception
-			Me.MainFormRef.ResponseError(UpdateItem, "(connect error)" + ControlChars.CrLf + ex.Message)
+			Me.MainFormRef.ResponseError(UpdateItem, "(connect error)" & ControlChars.CrLf & ex.Message)
 			Me.MainFormRef.IncreaseCompleted()
 			Return
 		End Try

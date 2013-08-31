@@ -61,7 +61,7 @@ Public Class MainForm
 		If Me.lvResponses.InvokeRequired Then
 			Me.lvResponses.BeginInvoke(New ResponseReceivedDelegate(AddressOf ResponseReceived), lvi, out)
 		Else
-			Dim headerOffset As Integer = out.IndexOf(ControlChars.CrLf + ControlChars.CrLf)
+			Dim headerOffset As Integer = out.IndexOf(ControlChars.CrLf & ControlChars.CrLf)
 			Dim m As Match = Regex.Match(out, "^HTTP/[0-9]\.[0-9] ([0-9]{3}) ")
 			If headerOffset >= 0 AndAlso m.Success Then
 				Dim code As Integer = CInt(m.Groups(1).Value)
@@ -187,7 +187,7 @@ Public Class MainForm
 		ElseIf length = 1 Then
 			lblPayloadSize.Text = "Payload Size: a byte"
 		Else
-			lblPayloadSize.Text = "Payload Size: " + length.ToString + " bytes"
+			lblPayloadSize.Text = "Payload Size: " & length & " bytes"
 		End If
 		UpdateUpstreamBandwidth(length)
 	End Sub
