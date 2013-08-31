@@ -42,8 +42,10 @@ Partial Class MainForm
 		Me.txtResponsesRaw = New System.Windows.Forms.TextBox()
 		Me.tpSettings = New System.Windows.Forms.TabPage()
 		Me.lblUpstream = New System.Windows.Forms.Label()
-		Me.numDelay = New System.Windows.Forms.NumericUpDown()
-		Me.lblDelay = New System.Windows.Forms.Label()
+		Me.numQueueCount = New System.Windows.Forms.NumericUpDown()
+		Me.numQueueDelay = New System.Windows.Forms.NumericUpDown()
+		Me.lblQueueCount = New System.Windows.Forms.Label()
+		Me.lblQueueDelay = New System.Windows.Forms.Label()
 		Me.ssStatus = New System.Windows.Forms.StatusStrip()
 		Me.tsslRequests = New System.Windows.Forms.ToolStripStatusLabel()
 		Me.tsslRequestCounter = New System.Windows.Forms.ToolStripStatusLabel()
@@ -55,6 +57,7 @@ Partial Class MainForm
 		Me.tmrQueue = New System.Windows.Forms.Timer(Me.components)
 		Me.btnOneRequest = New System.Windows.Forms.Button()
 		Me.btnResolve = New System.Windows.Forms.Button()
+		Me.btnEnqueue = New System.Windows.Forms.Button()
 		Me.tcMain.SuspendLayout()
 		Me.tpPayload.SuspendLayout()
 		Me.tpResponse.SuspendLayout()
@@ -64,7 +67,8 @@ Partial Class MainForm
 		Me.tcResponses.SuspendLayout()
 		Me.tpResponsesRaw.SuspendLayout()
 		Me.tpSettings.SuspendLayout()
-		CType(Me.numDelay, System.ComponentModel.ISupportInitialize).BeginInit()
+		CType(Me.numQueueCount, System.ComponentModel.ISupportInitialize).BeginInit()
+		CType(Me.numQueueDelay, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.ssStatus.SuspendLayout()
 		CType(Me.numPort, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.SuspendLayout()
@@ -243,8 +247,10 @@ Partial Class MainForm
 		'tpSettings
 		'
 		Me.tpSettings.Controls.Add(Me.lblUpstream)
-		Me.tpSettings.Controls.Add(Me.numDelay)
-		Me.tpSettings.Controls.Add(Me.lblDelay)
+		Me.tpSettings.Controls.Add(Me.numQueueCount)
+		Me.tpSettings.Controls.Add(Me.numQueueDelay)
+		Me.tpSettings.Controls.Add(Me.lblQueueCount)
+		Me.tpSettings.Controls.Add(Me.lblQueueDelay)
 		Me.tpSettings.Location = New System.Drawing.Point(4, 22)
 		Me.tpSettings.Name = "tpSettings"
 		Me.tpSettings.Size = New System.Drawing.Size(556, 271)
@@ -255,30 +261,49 @@ Partial Class MainForm
 		'lblUpstream
 		'
 		Me.lblUpstream.AutoSize = True
-		Me.lblUpstream.Location = New System.Drawing.Point(3, 34)
+		Me.lblUpstream.Location = New System.Drawing.Point(3, 57)
 		Me.lblUpstream.Name = "lblUpstream"
 		Me.lblUpstream.Size = New System.Drawing.Size(161, 13)
 		Me.lblUpstream.TabIndex = 2
 		Me.lblUpstream.Text = "Upstream bandwidth: 260 byte/s"
 		'
-		'numDelay
+		'numQueueCount
 		'
-		Me.numDelay.Location = New System.Drawing.Point(89, 9)
-		Me.numDelay.Maximum = New Decimal(New Integer() {60000, 0, 0, 0})
-		Me.numDelay.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-		Me.numDelay.Name = "numDelay"
-		Me.numDelay.Size = New System.Drawing.Size(57, 20)
-		Me.numDelay.TabIndex = 1
-		Me.numDelay.Value = New Decimal(New Integer() {100, 0, 0, 0})
+		Me.numQueueCount.Location = New System.Drawing.Point(89, 8)
+		Me.numQueueCount.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
+		Me.numQueueCount.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+		Me.numQueueCount.Name = "numQueueCount"
+		Me.numQueueCount.Size = New System.Drawing.Size(57, 20)
+		Me.numQueueCount.TabIndex = 1
+		Me.numQueueCount.Value = New Decimal(New Integer() {1, 0, 0, 0})
 		'
-		'lblDelay
+		'numQueueDelay
 		'
-		Me.lblDelay.AutoSize = True
-		Me.lblDelay.Location = New System.Drawing.Point(3, 11)
-		Me.lblDelay.Name = "lblDelay"
-		Me.lblDelay.Size = New System.Drawing.Size(80, 13)
-		Me.lblDelay.TabIndex = 0
-		Me.lblDelay.Text = "Queue Interval:"
+		Me.numQueueDelay.Location = New System.Drawing.Point(89, 34)
+		Me.numQueueDelay.Maximum = New Decimal(New Integer() {60000, 0, 0, 0})
+		Me.numQueueDelay.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+		Me.numQueueDelay.Name = "numQueueDelay"
+		Me.numQueueDelay.Size = New System.Drawing.Size(57, 20)
+		Me.numQueueDelay.TabIndex = 1
+		Me.numQueueDelay.Value = New Decimal(New Integer() {100, 0, 0, 0})
+		'
+		'lblQueueCount
+		'
+		Me.lblQueueCount.AutoSize = True
+		Me.lblQueueCount.Location = New System.Drawing.Point(3, 10)
+		Me.lblQueueCount.Name = "lblQueueCount"
+		Me.lblQueueCount.Size = New System.Drawing.Size(81, 13)
+		Me.lblQueueCount.TabIndex = 0
+		Me.lblQueueCount.Text = "Request Count:"
+		'
+		'lblQueueDelay
+		'
+		Me.lblQueueDelay.AutoSize = True
+		Me.lblQueueDelay.Location = New System.Drawing.Point(3, 36)
+		Me.lblQueueDelay.Name = "lblQueueDelay"
+		Me.lblQueueDelay.Size = New System.Drawing.Size(80, 13)
+		Me.lblQueueDelay.TabIndex = 0
+		Me.lblQueueDelay.Text = "Queue Interval:"
 		'
 		'ssStatus
 		'
@@ -358,11 +383,11 @@ Partial Class MainForm
 		'
 		'btnOneRequest
 		'
-		Me.btnOneRequest.Location = New System.Drawing.Point(468, 30)
+		Me.btnOneRequest.Location = New System.Drawing.Point(373, 30)
 		Me.btnOneRequest.Name = "btnOneRequest"
-		Me.btnOneRequest.Size = New System.Drawing.Size(51, 23)
+		Me.btnOneRequest.Size = New System.Drawing.Size(70, 23)
 		Me.btnOneRequest.TabIndex = 7
-		Me.btnOneRequest.Text = "Sample"
+		Me.btnOneRequest.Text = "Only Once"
 		Me.btnOneRequest.UseVisualStyleBackColor = True
 		'
 		'btnResolve
@@ -375,11 +400,21 @@ Partial Class MainForm
 		Me.btnResolve.Text = "Resolve"
 		Me.btnResolve.UseVisualStyleBackColor = True
 		'
+		'btnEnqueue
+		'
+		Me.btnEnqueue.Location = New System.Drawing.Point(449, 30)
+		Me.btnEnqueue.Name = "btnEnqueue"
+		Me.btnEnqueue.Size = New System.Drawing.Size(70, 23)
+		Me.btnEnqueue.TabIndex = 9
+		Me.btnEnqueue.Text = "Enqueue"
+		Me.btnEnqueue.UseVisualStyleBackColor = True
+		'
 		'MainForm
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.ClientSize = New System.Drawing.Size(588, 366)
+		Me.Controls.Add(Me.btnEnqueue)
 		Me.Controls.Add(Me.btnResolve)
 		Me.Controls.Add(Me.btnOneRequest)
 		Me.Controls.Add(Me.btnToggleAttack)
@@ -390,7 +425,7 @@ Partial Class MainForm
 		Me.Controls.Add(Me.ssStatus)
 		Me.Controls.Add(Me.tcMain)
 		Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-		Me.MinimumSize = New System.Drawing.Size(425, 180)
+		Me.MinimumSize = New System.Drawing.Size(425, 200)
 		Me.Name = "MainForm"
 		Me.Text = "TCP Stress Tester"
 		Me.tcMain.ResumeLayout(False)
@@ -405,7 +440,8 @@ Partial Class MainForm
 		Me.tpResponsesRaw.PerformLayout()
 		Me.tpSettings.ResumeLayout(False)
 		Me.tpSettings.PerformLayout()
-		CType(Me.numDelay, System.ComponentModel.ISupportInitialize).EndInit()
+		CType(Me.numQueueCount, System.ComponentModel.ISupportInitialize).EndInit()
+		CType(Me.numQueueDelay, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.ssStatus.ResumeLayout(False)
 		Me.ssStatus.PerformLayout()
 		CType(Me.numPort, System.ComponentModel.ISupportInitialize).EndInit()
@@ -437,12 +473,15 @@ Partial Class MainForm
 	Friend WithEvents btnToggleAttack As System.Windows.Forms.CheckBox
 	Friend WithEvents lblPayloadSize As System.Windows.Forms.Label
 	Friend WithEvents tpSettings As System.Windows.Forms.TabPage
-	Friend WithEvents numDelay As System.Windows.Forms.NumericUpDown
-	Friend WithEvents lblDelay As System.Windows.Forms.Label
+	Friend WithEvents numQueueDelay As System.Windows.Forms.NumericUpDown
+	Friend WithEvents lblQueueDelay As System.Windows.Forms.Label
 	Friend WithEvents lblUpstream As System.Windows.Forms.Label
 	Friend WithEvents tmrQueue As System.Windows.Forms.Timer
 	Friend WithEvents tsslRequests As System.Windows.Forms.ToolStripStatusLabel
 	Friend WithEvents btnOneRequest As System.Windows.Forms.Button
 	Friend WithEvents btnResolve As System.Windows.Forms.Button
+	Friend WithEvents numQueueCount As System.Windows.Forms.NumericUpDown
+	Friend WithEvents lblQueueCount As System.Windows.Forms.Label
+	Friend WithEvents btnEnqueue As System.Windows.Forms.Button
 
 End Class

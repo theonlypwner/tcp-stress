@@ -39,7 +39,6 @@
 	End Function
 
 	Private Sub SendRequest()
-		' TODO implement
 		Dim lvi As New ListViewItem(New String() {IncreaseStarted().ToString, "-", "?", "?", "?"})
 		lvi.ImageIndex = StatusImages.UPLOAD
 		lvi.Tag = New RequestThread(CurrentTarget, txtPayload.Text, Me, lvi)
@@ -123,7 +122,7 @@
 	End Function
 
 	Private Sub UpdateUpstreamBandwidth(ByVal length As Integer)
-		Dim speed As Decimal = length / Math.Max(1, numDelay.Value) * 1000
+		Dim speed As Decimal = length * numQueueCount.Value / Math.Max(1, numQueueDelay.Value) * 1000
 		Dim prefixes As String() = New String() {"", "kibi", "mibi", "gibi"}
 		Dim prefix As Integer = 0
 		While prefix + 1 < prefixes.Length AndAlso speed >= 1024
@@ -154,6 +153,21 @@
 		End If
 	End Sub
 
+	Private Sub btnEnqueue_Click(sender As Object, e As EventArgs) Handles btnEnqueue.Click
+		If CheckTarget() Then
+			For i As Integer = 1 To CInt(numQueueCount.Value)
+				SendRequest()
+			Next
+		End If
+	End Sub
+
+	' Queue tick
+	Private Sub tmrQueue_Tick(sender As Object, e As EventArgs) Handles tmrQueue.Tick
+		For i As Integer = 1 To CInt(numQueueCount.Value)
+			SendRequest()
+		Next
+	End Sub
+
 	Private Sub btnToggleAttack_CheckedChanged(sender As Object, e As EventArgs) Handles btnToggleAttack.CheckedChanged
 		' Check if the endpoint is valid
 		If btnToggleAttack.Checked AndAlso Not CheckTarget() Then
@@ -175,16 +189,16 @@
 		UpdateUpstreamBandwidth(length)
 	End Sub
 
-	Private Sub numDelay_ValueChanged(sender As Object, e As EventArgs) Handles numDelay.ValueChanged
-		tmrQueue.Interval = CInt(numDelay.Value)
+	Private Sub numQueueCount_ValueChanged(sender As Object, e As EventArgs) Handles numQueueCount.ValueChanged
 		UpdateUpstreamBandwidth(GetPayloadSize())
 	End Sub
 
-	' Queue tick
-	Private Sub tmrQueue_Tick(sender As Object, e As EventArgs) Handles tmrQueue.Tick
-		SendRequest()
+	Private Sub numQueueDelay_ValueChanged(sender As Object, e As EventArgs) Handles numQueueDelay.ValueChanged
+		tmrQueue.Interval = CInt(numQueueDelay.Value)
+		UpdateUpstreamBandwidth(GetPayloadSize())
 	End Sub
 
+	' Change response selection, or the response text has changed
 	Private Sub lvResponses_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lvResponses.SelectedIndexChanged
 		If lvResponses.SelectedIndices.Count = 1 Then
 			Try
